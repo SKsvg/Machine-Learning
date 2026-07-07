@@ -1,3 +1,8 @@
+pip install pandas
+pip install matplotlib
+pip install seaborn
+pip install scikit-learn
+
 import pandas as pd
 
 df = pd.read_csv('C:/Users/cccuser/Desktop/22csc025/student_data.csv')
