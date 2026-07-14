@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("C:/Users/dcsuser/Desktop/22csc025/student_data.csv")
+df = pd.read_csv('C:/Users/cccuser/Desktop/22csc025/student_data.csv')
 
 df=df.drop_duplicates(subset=['Student_ID'],keep='first')
 
@@ -57,13 +57,30 @@ df['Age']= np.where(
 	)
 )
 
-from sklearn.preprocessing import StandardScalar,MinMaxScaler,
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
 scaler_minmax = MinMaxScaler()
 df['Attendance_Normalized'] = scaler_minmax.fit_transform(df[['Attendance']])
 
-
 #Standardization (z-score) on salary (mean=0, std=1)
-scaler_std = StandardScalar()
-df['Salary_Standadized']=scaler_std.fit_transform([['Salary']])
-print(df)
+scaler_std =StandardScaler()
+df['Salary_Standardized'] = scaler_std.fit_transform(df[['Salary']])
 
+#label encoding
+le = LabelEncoder()
+df['Department'] = le.fit_transform(df['Department'])
+
+#method B: one-hot encoding for nominal data (gender & city)
+df = pd.get_dummies(df, columns=['Gender'], dtype=int)
+print("\n--- 6.After categorical encoding ---")
+print(df.info())
+'''
+df.to_csv('./datasets/student_data_cleaned.csv',index=False)
+#index=False - "Do not save the extra index column."
+print("\n Cleaned dataset saved as 'student_data_cleaned.csv' \n")'''
+import os
+
+os.makedirs("datasets", exist_ok=True)
+
+df.to_csv("./datasets/student_data_cleaned.csv", index=False)
+
+print("\nCleaned dataset saved as 'student_data_cleaned.csv'\n")
